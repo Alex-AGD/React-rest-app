@@ -1,5 +1,5 @@
 import { createStore } from 'redux';
-import reducers from "./components/reducers/reducers";
+import reducers from "./reducers/reducers";
 
 
 const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__&&
@@ -7,7 +7,7 @@ const store = createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION__&&
 
 
 store.subscribe(() => {
-    console.log('subscribe' ,store.getState())
+    //console.log('subscribe' ,store.getState())
 } )
 
 

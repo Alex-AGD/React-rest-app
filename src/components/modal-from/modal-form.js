@@ -4,7 +4,7 @@ import AddForm from "./add-form";
 
 
 const Modal = props => {
-    const [ modal, setModal ] = useState ({
+    const [] = useState ({
         modal: true,
     })
 

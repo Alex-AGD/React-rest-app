@@ -1,7 +1,5 @@
 const SET_GLOBAL_DATA = 'SET_GLOBAL_DATA'
 
-
-
 const initialState = {
 
 }
@@ -18,11 +16,6 @@ export const dataToolsReducer = ( state = initialState, action) => {
     }
 }
 
-export const setData = (data) => {
-    return {
-        type: SET_GLOBAL_DATA,
-        data
-    }
-}
+export const setData = (data) => {return { type: SET_GLOBAL_DATA, data }}
 
 

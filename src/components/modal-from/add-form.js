@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import DatePicker from "react-datepicker";
 import { toolsApi } from "../../api/api";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class AddForm extends Component {
-
-    const
-    export
-    default
-
     constructor (props) {
         super (props);
         this.onChangeToolsName = this.onChangeToolsName.bind (this);
@@ -18,10 +13,10 @@ class AddForm extends Component {
         this.onSubmit = this.onSubmit.bind (this);
 
         this.state = {
-            id: 4,
+            id: 0,
             toolName: '',
             cost: '',
-            date: new Date,
+            date: new Date()
         }
 
     }
@@ -46,13 +41,12 @@ class AddForm extends Component {
         const userObject = {
             toolName: this.state.toolName,
             cost: this.state.cost,
-            date: this.state.date
+            dateOfTools: this.state.date
         };
 
         axios.post ('http://localhost:8080/api/tools', userObject)
             .then ((res) => {
-                this.setState ({ toolName: '', cost: '', date: '' })
-                /* this.props.setData (res.data);*/
+                this.setState ({ toolName: '', cost: '', dateOfTools: '' })
                 toolsApi.getAll ()
                     .then (res => {
                         this.setState ({ tools: res.data });
@@ -86,8 +80,12 @@ class AddForm extends Component {
                             <DatePicker
                                 selected={ this.state.date }
                                 onChange={ this.onChangeDate }
-                                className="form-control"/>
+                                isClearable
+                                className="form-control"
+                                dateFormat="yyyy-MM-dd"
+                            />
                         </div>
+
 
                         <div className="form-group">
                             <input type="submit" value="Добавить" className="btn btn-success btn-block"/>
