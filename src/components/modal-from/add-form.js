@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import { toolsApi } from "../../api/api";
 
 
 class AddForm extends Component {
 
+    const
+    export
+    default
+
     constructor (props) {
-      super (props);
+        super (props);
         this.onChangeToolsName = this.onChangeToolsName.bind (this);
         this.onChangeToolsPrice = this.onChangeToolsPrice.bind (this);
-        this.onChangeToolsDate = this.onChangeToolsDate.bind (this);
+        this.onChangeDate = this.onChangeDate.bind (this);
         this.onSubmit = this.onSubmit.bind (this);
 
         this.state = {
             id: 4,
             toolName: '',
             cost: '',
-            date: '',
+            date: new Date,
         }
+
     }
+
 
     onChangeToolsName (e) {
         this.setState ({ toolName: e.target.value })
@@ -27,15 +35,15 @@ class AddForm extends Component {
         this.setState ({ cost: e.target.value })
     }
 
-    onChangeToolsDate (e) {
-        this.setState ({ date: e.target.value })
+    onChangeDate (date) {
+        this.setState ({
+            date: date
+        });
     }
 
     onSubmit (e) {
         e.preventDefault ()
-
-
-    const userObject = {
+        const userObject = {
             toolName: this.state.toolName,
             cost: this.state.cost,
             date: this.state.date
@@ -43,18 +51,18 @@ class AddForm extends Component {
 
         axios.post ('http://localhost:8080/api/tools', userObject)
             .then ((res) => {
-                console.log (res.data)
-            }).catch ((error) => {
-            console.log(error)
-        });
-        this.setState ({toolName: '', cost: '', date: '' })
+                this.setState ({ toolName: '', cost: '', date: '' })
+                /* this.props.setData (res.data);*/
+                toolsApi.getAll ()
+                    .then (res => {
+                        this.setState ({ tools: res.data });
+                        this.props.setData (res.data);
+                    })
+            })}
 
-    }
 
-
-
-    render () {
-        return (
+        render (){
+            return (
                 <div className="wrapper">
                     <form onSubmit={ this.onSubmit }>
                         <div className="form-group">
@@ -75,10 +83,10 @@ class AddForm extends Component {
 
                         <div className="form-group">
                             <label>Дата</label>
-                            <input type="text"
-                                   value={ this.state.date }
-                                   onChange={ this.onChangeToolsDate }
-                                   className="form-control"/>
+                            <DatePicker
+                                selected={ this.state.date }
+                                onChange={ this.onChangeDate }
+                                className="form-control"/>
                         </div>
 
                         <div className="form-group">
@@ -86,8 +94,11 @@ class AddForm extends Component {
                         </div>
                     </form>
                 </div>
-        );
+            );
+        }
     }
-}
 
-export default AddForm;
+
+
+
+export default AddForm
