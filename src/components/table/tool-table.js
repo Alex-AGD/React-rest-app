@@ -10,7 +10,6 @@ import { setData } from "../../reducers/toolsReducer";
 import Chart from "../сhart/chart";
 
 
-
 class ToolTable extends Component {
 
     constructor (props) {
@@ -27,7 +26,6 @@ class ToolTable extends Component {
                     dataField: 'toolName',
                     text: 'Инструмент'
                 },
-
                 {
                     dataField: 'cost',
                     text: 'Стоимость',
@@ -119,11 +117,12 @@ class ToolTable extends Component {
 
                         }) }
                     />
-                    <Button
-                        onClick={ () => this.setState ({ modal: true })
-                        }>Добавить продукт</Button>
+                    <Button onClick={ () =>
+                        this.setState (
+                            { modal: true }) }>Добавить продукт
+                    </Button>
 
-                    <Chart  tools={ this.state.tools }  />
+                    <Chart tools={ this.state.tools }/>
                 </div>
             </>
         );
@@ -131,9 +130,7 @@ class ToolTable extends Component {
 }
 
 let mapStateToProps = (state) => {
-    return {
-        tools: state.tools
-    }
-}
+    return { tools: state.tools }}
+
 export default connect (mapStateToProps, { setData }) (ToolTable)
 

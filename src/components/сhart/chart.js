@@ -3,9 +3,10 @@ import { HorizontalGridLines, LineSeries, VerticalGridLines, XAxis, XYPlot, YAxi
 
 
 const Chart = (props) => {
-    const ToolArr = props.tools.map ((d) => {
+    const toolArr = props.tools.map ((d) => {
         return { x: d.toolName + d.dateOfTools, y: d.cost }
     });
+
     return (
         <XYPlot
             xType="ordinal"
@@ -21,16 +22,9 @@ const Chart = (props) => {
                     strokeLinejoin: 'round',
                     strokeWidth: 4
                 } }/>
-
-            <LineSeries className="second-series" data={ ToolArr }/>
-
+            <LineSeries className="second-series" data={ toolArr }/>
         </XYPlot>
     );
-}
-
-
-const mapStateToProps = (state) => {
-    return { tools: state.tools }
 }
 
 export default Chart

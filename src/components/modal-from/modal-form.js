@@ -1,12 +1,7 @@
 import '../../index.css'
-import React, { useState } from 'react'
 import AddForm from "./add-form";
 
-
 const Modal = props => {
-    const [] = useState ({
-        modal: true,
-    })
 
     return (
         <div className={ `modal__wrapper ${ props.isOpened ? 'open' : 'close' }` } style={ { ...props.style } }>
