@@ -3,8 +3,7 @@ import { HorizontalGridLines, LineSeries, VerticalGridLines, XAxis, XYPlot, YAxi
 
 
 const Chart = (props) => {
-    const toolArr = props.tools.map ((d) => {
-        return { x: d.toolName + d.dateOfTools, y: d.cost }
+    const toolArr = props.tools.map ((d) => {return { x:d.toolName + ' ' + d.dateOfTools, y: d.cost }
     });
 
     return (

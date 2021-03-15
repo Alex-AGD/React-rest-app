@@ -8,12 +8,15 @@ import { Button } from "reactstrap";
 import { connect } from 'react-redux';
 import { setData } from "../../reducers/toolsReducer";
 import Chart from "../сhart/chart";
+import axios from "axios";
 
 
 class ToolTable extends Component {
 
+
     constructor (props) {
         super (props);
+        this.handleGetCurrentData = this.handleGetCurrentData.bind (this);
 
         this.state = {
             modal: false,
@@ -50,7 +53,7 @@ class ToolTable extends Component {
                     dataField: 'dateOfTools',
                     text: 'Дата',
                     sort: true,
-                    formatter: (cell) => {
+                    /*formatter: (cell) => {
                         let dateObj = cell;
                         if (typeof cell !== 'object') {
                             dateObj = new Date (cell);
@@ -60,15 +63,39 @@ class ToolTable extends Component {
                             .getUTCMonth () + 1))
                             .slice (-2) }/${ dateObj
                             .getUTCFullYear () }`;
-                    },
+                    },*/
                     editor: {
                         type: Type.DATE
                     }
                 }
-
             ]
         }
     }
+
+    handleGetCurrentData = (oldValue, newValue, row, column) => {
+
+        if (newValue !== oldValue) {
+            const newData = {
+                tools: newValue,
+                id: row[ 'id' ],
+                field: column.dataField
+            }
+
+            const arr = Object.values (this.props.tools);
+            const newToolARr = arr.find(x => x.id === newData.id)
+
+                    axios.put('http://localhost:8080/api/tools/'+newData.id, newToolARr)
+                         .then(res =>{
+                             this.setState (newToolARr);
+                 })
+                        .catch (e => {
+                            console.log (newToolARr  );
+                        });
+        }
+
+
+    }
+
 
     componentDidMount () {
         toolsApi.getAll ()
@@ -86,6 +113,7 @@ class ToolTable extends Component {
         const arr = Object.values (this.props.tools);
         if (this.props.tools !== prevProps.tools) {
             this.setState ({ tools: arr });
+            //console.log (prevState, this.state)
         }
     }
 
@@ -102,7 +130,10 @@ class ToolTable extends Component {
                         }
                     >
                     </Modal>
+
+
                     <BootstrapTable
+                        ref={ n => this.node = n }
                         striped
                         hover
                         keyField='id'
@@ -114,7 +145,7 @@ class ToolTable extends Component {
                         cellEdit={ cellEditFactory ({
                             mode: "dbclick",
                             blurToSave: true,
-
+                            afterSaveCell: this.handleGetCurrentData
                         }) }
                     />
                     <Button onClick={ () =>
@@ -130,7 +161,8 @@ class ToolTable extends Component {
 }
 
 let mapStateToProps = (state) => {
-    return { tools: state.tools }}
+    return { tools: state.tools }
+}
 
 export default connect (mapStateToProps, { setData }) (ToolTable)
 
