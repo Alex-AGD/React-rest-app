@@ -1,9 +1,9 @@
-import {combineReducers} from "redux";
+import { combineReducers } from "redux";
 
 import { dataToolsReducer } from './toolsReducer'
-import {dataPriceReducer } from "./toolPriceReducer";
+import { dataPriceReducer } from "./toolPriceReducer";
 
-export default combineReducers({
+export default combineReducers ({
     tools: dataToolsReducer,
     price: dataPriceReducer
 

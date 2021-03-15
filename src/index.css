@@ -1,4 +1,4 @@
-.modal__wrapper{
+.modal__wrapper {
     position: sticky;
     bottom: 10px;
     width: 100%;
@@ -23,23 +23,25 @@
     padding: 20px;
     border-radius: 10px;
     max-height: 100%;
-    overflow-y: scroll ;
+    overflow-y: scroll;
 }
 
-.modal__body::-webkit-scrollbar{
+.modal__body::-webkit-scrollbar {
     width: 0;
     background: transparent;
 }
 
-.modal__body{
+.modal__body {
     -ms-overflow-style: none;
 }
-.modal_close{
+
+.modal_close {
     text-align: right;
     margin-top: -15px;
     font-size: 30px;
     cursor: pointer;
 }
+
 .modal__body h2 {
     text-align: center;
     width: 100%;

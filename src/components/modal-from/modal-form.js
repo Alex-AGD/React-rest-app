@@ -8,7 +8,7 @@ const Modal = props => {
             <div className='modal__body'>
                 <div className='modal_close' onClick={ props.onModalClose }>x</div>
                 <h2>{ props.title }</h2>
-                <AddForm setData={ props.setData} />
+                <AddForm setData={ props.setData }/>
                 <hr/>
             </div>
         </div>
