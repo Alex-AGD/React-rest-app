@@ -8,8 +8,7 @@ import { Button } from "reactstrap";
 import { connect } from 'react-redux';
 import { setData } from "../../reducers/toolsReducer";
 import Chart from "../сhart/chart";
-import axios from "axios";
-
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 class ToolTable extends Component {
 
@@ -17,21 +16,35 @@ class ToolTable extends Component {
     constructor (props) {
         super (props);
         this.handleGetCurrentData = this.handleGetCurrentData.bind (this);
-
+        const headerSortingStyle = { backgroundColor: '#c8e6c9' };
         this.state = {
             modal: false,
             tools: [],
             columns: [ {
                 dataField: 'id',
-                text: 'ID'
+                text: 'ID',
+                sort: true,
+                headerSortingStyle
             },
                 {
                     dataField: 'toolName',
-                    text: 'Инструмент'
+                    text: 'Инструмент',
+                    sort: true,
+                    headerSortingStyle,
+                    validator: (newValue => {
+                        if (newValue < 1) {
+                            return {
+                                valid: false,
+                                message: "Введите название"
+                            };
+                        }
+                        return true;
+                    })
                 },
                 {
                     dataField: 'cost',
                     text: 'Стоимость',
+                    headerSortingStyle,
                     sort: true,
                     validator: (newValue, row, column) => {
                         if (isNaN (newValue)) {
@@ -43,7 +56,7 @@ class ToolTable extends Component {
                         if (newValue < 1) {
                             return {
                                 valid: false,
-                                message: "Цена должна быть не меньше 1"
+                                message: "Введите стоймость"
                             };
                         }
                         return true;
@@ -53,17 +66,7 @@ class ToolTable extends Component {
                     dataField: 'dateOfTools',
                     text: 'Дата',
                     sort: true,
-                    /*formatter: (cell) => {
-                        let dateObj = cell;
-                        if (typeof cell !== 'object') {
-                            dateObj = new Date (cell);
-                        }
-                        return `${ ('0' + dateObj.getUTCDate ())
-                            .slice (-2) }/${ ('0' + (dateObj
-                            .getUTCMonth () + 1))
-                            .slice (-2) }/${ dateObj
-                            .getUTCFullYear () }`;
-                    },*/
+                    headerSortingStyle,
                     editor: {
                         type: Type.DATE
                     }
@@ -82,18 +85,16 @@ class ToolTable extends Component {
             }
 
             const arr = Object.values (this.props.tools);
-            const newToolARr = arr.find(x => x.id === newData.id)
+            const newToolARr = arr.find (x => x.id === newData.id)
 
-                    axios.put('http://localhost:8080/api/tools/'+newData.id, newToolARr)
-                         .then(res =>{
-                             this.setState (newToolARr);
-                 })
-                        .catch (e => {
-                            console.log (newToolARr  );
-                        });
+            toolsApi.put (+newData.id, newToolARr)
+                .then (res => {
+                    this.setState (newToolARr);
+                })
+                .catch (e => {
+                    console.log (newToolARr);
+                });
         }
-
-
     }
 
 
@@ -131,12 +132,12 @@ class ToolTable extends Component {
                     >
                     </Modal>
 
-
                     <BootstrapTable
                         ref={ n => this.node = n }
                         striped
                         hover
                         keyField='id'
+                        pagination={ paginationFactory () }
                         bootstrap4={ true }
                         loading={ true }
                         data={ this.state.tools }

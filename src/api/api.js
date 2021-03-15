@@ -11,12 +11,12 @@ export const toolsApi = {
         return instance.get("/tools")
     },
 
-    create (){
-        return instance.post("/tools")
+    create (data){
+        return instance.post("/tools",data)
     },
 
-    put(){
-        return instance.put("/tools")
+    put(id,data){
+        return instance.put("/tools/"+id,data)
     }
 
 }
