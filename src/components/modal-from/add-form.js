@@ -43,7 +43,7 @@ class AddForm extends Component {
         };
 
         toolsApi.create (userObject)
-            .then ((res) => {
+            .then (() => {
                 this.setState ({ toolName: '', cost: '', dateOfTools: '' })
                 toolsApi.getAll ()
                     .then (res => {
